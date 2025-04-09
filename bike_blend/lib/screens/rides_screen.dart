@@ -544,10 +544,10 @@ class _RidesScreenState extends State<RidesScreen> with SingleTickerProviderStat
           mainAxisSize: MainAxisSize.min,
           children: [
             const SizedBox(height: 16),
-            Row(
+            const Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Text('Duration:'),
+                Text('Duration:'),
                 Text(
                   '45 min 22 sec',
                   style: TextStyle(fontWeight: FontWeight.bold),
@@ -555,10 +555,10 @@ class _RidesScreenState extends State<RidesScreen> with SingleTickerProviderStat
               ],
             ),
             const SizedBox(height: 8),
-            Row(
+            const Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Text('Distance:'),
+                Text('Distance:'),
                 Text(
                   '12.5 km',
                   style: TextStyle(fontWeight: FontWeight.bold),
@@ -566,10 +566,10 @@ class _RidesScreenState extends State<RidesScreen> with SingleTickerProviderStat
               ],
             ),
             const SizedBox(height: 8),
-            Row(
+            const Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Text('Total Cost:'),
+                Text('Total Cost:'),
                 Text(
                   '₹35.00',
                   style: TextStyle(fontWeight: FontWeight.bold),
@@ -577,10 +577,10 @@ class _RidesScreenState extends State<RidesScreen> with SingleTickerProviderStat
               ],
             ),
             const SizedBox(height: 8),
-            Row(
+            const Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Text('CO₂ Saved:'),
+                Text('CO₂ Saved:'),
                 Text(
                   '1.8 kg',
                   style: TextStyle(fontWeight: FontWeight.bold),
@@ -659,8 +659,8 @@ class _RidesScreenState extends State<RidesScreen> with SingleTickerProviderStat
                   }),
                 ),
                 const SizedBox(height: 16),
-                TextField(
-                  decoration: const InputDecoration(
+                const TextField(
+                  decoration: InputDecoration(
                     labelText: 'Additional Comments (Optional)',
                     border: OutlineInputBorder(),
                   ),
@@ -799,8 +799,8 @@ class _RidesScreenState extends State<RidesScreen> with SingleTickerProviderStat
               onChanged: (value) {},
             ),
             const SizedBox(height: 16),
-            TextField(
-              decoration: const InputDecoration(
+            const TextField(
+              decoration: InputDecoration(
                 labelText: 'Description',
                 hintText: 'Please provide details about the issue',
                 border: OutlineInputBorder(),

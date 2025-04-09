@@ -17,7 +17,6 @@ class AppTheme {
       secondary: accentColor,
       error: errorColor,
       surface: Colors.white,
-      background: Color(0xFFF5F5F5),
     ),
     scaffoldBackgroundColor: const Color(0xFFF5F5F5),
     appBarTheme: const AppBarTheme(
@@ -56,7 +55,6 @@ class AppTheme {
       secondary: accentColor,
       error: errorColor,
       surface: Color(0xFF1E1E1E),
-      background: Color(0xFF121212),
     ),
     scaffoldBackgroundColor: const Color(0xFF121212),
     appBarTheme: const AppBarTheme(

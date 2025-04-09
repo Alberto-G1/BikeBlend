@@ -12,17 +12,20 @@ dependencies:
   flutter:
     sdk: flutter
   cupertino_icons: ^1.0.2
-  provider: ^6.0.5
-  shared_preferences: ^2.2.0
-  smooth_page_indicator: ^1.1.0
+  provider: ^6.1.4
+  shared_preferences: ^2.5.3
+  smooth_page_indicator: ^1.2.1
+  # provider: ^6.0.5
+  # shared_preferences: ^2.2.0
+  # smooth_page_indicator: ^1.1.0P
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^2.0.0
+  flutter_lints: ^5.0.0
 
 flutter:
   uses-material-design: true
   
-  assets:
-    - assets/images/
+  # assets:
+    # - assets/images/
