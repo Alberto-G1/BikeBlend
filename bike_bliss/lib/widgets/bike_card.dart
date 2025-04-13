@@ -5,7 +5,7 @@ import 'package:bike_bliss/theme/app_theme.dart';
 class BikeCard extends StatelessWidget {
   final Bike bike;
 
-  const BikeCard({Key? key, required this.bike}) : super(key: key);
+  const BikeCard({super.key, required this.bike});
 
   @override
   Widget build(BuildContext context) {

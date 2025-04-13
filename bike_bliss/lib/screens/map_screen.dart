@@ -5,7 +5,7 @@ import 'package:bike_bliss/theme/app_theme.dart';
 import 'package:bike_bliss/models/bike.dart';
 
 class MapScreen extends StatefulWidget {
-  const MapScreen({Key? key}) : super(key: key);
+  const MapScreen({super.key});
 
   @override
   State<MapScreen> createState() => _MapScreenState();

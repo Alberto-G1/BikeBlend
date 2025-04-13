@@ -4,7 +4,7 @@ import 'package:bike_bliss/models/ride.dart';
 import 'package:intl/intl.dart';
 
 class RidesScreen extends StatefulWidget {
-  const RidesScreen({Key? key}) : super(key: key);
+  const RidesScreen({super.key});
 
   @override
   State<RidesScreen> createState() => _RidesScreenState();

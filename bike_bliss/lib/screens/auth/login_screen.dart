@@ -7,7 +7,7 @@ import 'package:bike_bliss/utils/page_transitions.dart';
 import 'package:bike_bliss/widgets/custom_text_field.dart';
 
 class LoginScreen extends StatefulWidget {
-  const LoginScreen({Key? key}) : super(key: key);
+  const LoginScreen({super.key});
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();

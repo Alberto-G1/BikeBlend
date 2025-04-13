@@ -123,7 +123,7 @@ import 'package:bike_bliss/screens/profile_screen.dart';
 import 'package:bike_bliss/theme/app_theme.dart';
 
 class MainScreen extends StatefulWidget {
-  const MainScreen({Key? key}) : super(key: key);
+  const MainScreen({super.key});
 
   @override
   State<MainScreen> createState() => _MainScreenState();

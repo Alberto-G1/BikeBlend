@@ -35,7 +35,6 @@ class AppTheme {
       primary: primaryColor,
       secondary: accentColor,
       surface: lightCardColor,
-      background: lightBackgroundColor,
       error: errorColor,
     ),
     textTheme: GoogleFonts.poppinsTextTheme(ThemeData.light().textTheme).apply(
@@ -128,7 +127,6 @@ class AppTheme {
       primary: primaryColor,
       secondary: accentColor,
       surface: darkCardColor,
-      background: darkBackgroundColor,
       error: errorColor,
     ),
     textTheme: GoogleFonts.poppinsTextTheme(ThemeData.dark().textTheme).apply(

@@ -4,7 +4,7 @@ import 'package:bike_bliss/theme/app_theme.dart';
 import 'dart:async';
 
 class ScanScreen extends StatefulWidget {
-  const ScanScreen({Key? key}) : super(key: key);
+  const ScanScreen({super.key});
 
   @override
   State<ScanScreen> createState() => _ScanScreenState();
@@ -147,7 +147,7 @@ class _ScanScreenState extends State<ScanScreen> with SingleTickerProviderStateM
                         ),
                       ),
                     ),
-                    Container(
+                    SizedBox(
                       width: 300,
                       height: 300,
                       child: AnimatedBuilder(

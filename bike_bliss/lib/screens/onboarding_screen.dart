@@ -5,7 +5,7 @@ import 'package:bike_bliss/theme/app_theme.dart';
 import 'package:bike_bliss/utils/page_transitions.dart';
 
 class OnboardingScreen extends StatefulWidget {
-  const OnboardingScreen({Key? key}) : super(key: key);
+  const OnboardingScreen({super.key});
 
   @override
   State<OnboardingScreen> createState() => _OnboardingScreenState();

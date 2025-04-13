@@ -6,7 +6,7 @@ import 'package:bike_bliss/widgets/custom_text_field.dart';
 import 'package:bike_bliss/screens/main_screen.dart';
 
 class RegisterScreen extends StatefulWidget {
-  const RegisterScreen({Key? key}) : super(key: key);
+  const RegisterScreen({super.key});
 
   @override
   State<RegisterScreen> createState() => _RegisterScreenState();

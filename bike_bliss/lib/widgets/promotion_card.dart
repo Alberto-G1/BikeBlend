@@ -6,7 +6,7 @@ import 'package:intl/intl.dart';
 class PromotionCard extends StatelessWidget {
   final Promotion promotion;
 
-  const PromotionCard({Key? key, required this.promotion}) : super(key: key);
+  const PromotionCard({super.key, required this.promotion});
 
   @override
   Widget build(BuildContext context) {
