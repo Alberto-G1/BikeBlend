@@ -16,17 +16,17 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     {
       'title': 'Find a Ride',
       'desc': 'Locate nearby bikes and unlock in seconds with Veloce.',
-      'image': 'assets/onboard1.png',
+      'image': 'assets/board/find.jpeg',
     },
     {
       'title': 'Scan and Go',
       'desc': 'Use the in-app scanner to securely unlock your bike.',
-      'image': 'assets/onboard2.png',
+      'image': 'assets/board/scan.jpeg',
     },
     {
       'title': 'Track Your Journey',
       'desc': 'See your ride history, CO₂ savings, and stats.',
-      'image': 'assets/onboard3.png',
+      'image': 'assets/board/track.jpeg',
     },
   ];
 
