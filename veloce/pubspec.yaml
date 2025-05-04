@@ -40,6 +40,9 @@ dependencies:
   flutter_polyline_points: ^2.1.0
   share_plus: ^10.1.4
   flutter_rating_bar: ^4.0.1
+  provider: ^6.1.5
+  mockito: ^5.4.6
+  fl_chart: ^0.71.0
 
 dev_dependencies:
   flutter_test:

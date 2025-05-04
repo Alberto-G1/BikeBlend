@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:veloce/screens/admin_dashboard_screen.dart';
+import 'package:veloce/screens/bikes.dart';
 import 'package:veloce/screens/home_screen.dart';
 import 'package:veloce/screens/login_screen.dart';
 import 'package:veloce/screens/manage_bikes_screen.dart';
@@ -16,22 +17,18 @@ import 'package:veloce/screens/wallet_screen.dart';
 
 
 Map<String, WidgetBuilder> appRoutes = {
-  // '/': (_) => const OnboardingScreen(),
   '/login': (_) => const LoginScreen(),
-  // '/signup': (_) => const SignupScreen(),
   '/home': (_) => const HomeScreen(),
   '/notifications': (_) => const NotificationScreen(),
   '/qr': (_) => const QRScannerScreen(),
-  // '/unlock_success': (_) => const RideUnlockSuccessScreen(),
   '/tracking': (_) => const RideTrackingScreen(),
   '/wallet': (_) => const WalletScreen(),
   '/payment': (_) => const PaymentScreen(),
-  // '/transactions': (_) => const TransactionsScreen(),
   '/history': (_) => const RideHistoryScreen(),
   '/profile': (_) => const ProfileScreen(),
   '/referral': (_) => const ReferralScreen(),
-  // '/invite': (_) => const InviteFriendsScreen(),
   '/admin': (_) => const AdminDashboardScreen(),
   '/manage_bikes': (_) => const ManageBikesScreen(),
   '/unlock_sim': (_) => const UnlockSimulationScreen(),
+  '/bikes': (_) => const BikesScreen(),
 };

@@ -41,7 +41,7 @@ class NotificationScreen extends StatelessWidget {
           final notif = notifications[index];
           return ListTile(
             contentPadding: const EdgeInsets.all(10),
-            tileColor: theme.colorScheme.surfaceVariant.withOpacity(0.05),
+            tileColor: theme.colorScheme.surfaceContainerHighest.withOpacity(0.05),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(12),
             ),

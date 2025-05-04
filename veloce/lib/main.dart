@@ -1,74 +1,59 @@
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:provider/provider.dart';
 import 'package:veloce/screens/routes.dart';
-import 'package:veloce/theme/app_theme.dart';
 import 'package:veloce/screens/splash_screen.dart';
 import 'package:veloce/screens/settings_screen.dart';
+import 'package:veloce/theme/theme_manager.dart';
+import 'package:veloce/utils/animations.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  final prefs = await SharedPreferences.getInstance();
-  final themeMode = prefs.getString('themeMode') ?? 'system';
-  runApp(MyApp(initialTheme: themeMode));
+  runApp(
+    ChangeNotifierProvider(
+      create: (_) => ThemeManager(),
+      child: const MyApp(),
+    ),
+  );
 }
 
-class MyApp extends StatefulWidget {
-  final String initialTheme;
-  const MyApp({super.key, required this.initialTheme});
-
-  @override
-  State<MyApp> createState() => _MyAppState();
-}
-
-class _MyAppState extends State<MyApp> {
-  late ThemeMode _themeMode;
-
-  @override
-  void initState() {
-    super.initState();
-    _themeMode = _getThemeMode(widget.initialTheme);
-  }
-
-  ThemeMode _getThemeMode(String mode) {
-    switch (mode) {
-      case 'light':
-        return ThemeMode.light;
-      case 'dark':
-        return ThemeMode.dark;
-      default:
-        return ThemeMode.system;
-    }
-  }
-
-  void _updateTheme(String mode) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString('themeMode', mode);
-    setState(() => _themeMode = _getThemeMode(mode));
-  }
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final themeManager = Provider.of<ThemeManager>(context);
+    
     return MaterialApp(
       title: 'Veloce',
-      theme: AppTheme.lightTheme,
-      darkTheme: AppTheme.darkTheme,
-      themeMode: _themeMode,
+      theme: themeManager.getLightTheme(),
+      darkTheme: themeManager.getDarkTheme(),
+      themeMode: themeManager.themeMode,
       debugShowCheckedModeBanner: false,
       routes: appRoutes,
-      // 🔥 Here’s the magic for dynamic arguments like SettingsScreen
       onGenerateRoute: (settings) {
         if (settings.name == '/settings') {
-          final args = settings.arguments as Map<String, dynamic>;
-          return MaterialPageRoute(
-            builder: (_) => SettingsScreen(
-              isDarkMode: args['isDarkMode'],
-              onThemeToggle: args['onThemeToggle'],
+          return AnimationUtils.slideTransition(
+            SettingsScreen(
+              themeManager: themeManager,
             ),
           );
         }
-        return null; // fallback for unknown routes
+        
+        // For other dynamic routes
+        final routes = <String, WidgetBuilder>{
+          // Add other routes that need dynamic parameters here
+        };
+        
+        // If the route exists in our dynamic routes
+        if (routes.containsKey(settings.name)) {
+          return AnimationUtils.slideTransition(
+            routes[settings.name]!(context),
+          );
+        }
+        
+        return null;
       },
-      home: SplashScreen(onThemeChange: _updateTheme),
+      home: SplashScreen(),
     );
   }
 }
