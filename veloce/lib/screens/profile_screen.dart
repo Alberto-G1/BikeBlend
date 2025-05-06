@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:veloce/screens/bikes.dart';
 import 'package:veloce/screens/change_password_screen.dart';
 import 'package:veloce/screens/edit_profile_screen.dart';
 
@@ -182,7 +183,12 @@ class ProfileScreen extends StatelessWidget {
         ),
       ),
       floatingActionButton: FloatingActionButton.extended(
-        onPressed: () {},
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const BikesScreen()),
+          );
+        },
         backgroundColor: theme.colorScheme.primary,
         icon: const Icon(Icons.directions_bike),
         label: const Text("New Ride"),

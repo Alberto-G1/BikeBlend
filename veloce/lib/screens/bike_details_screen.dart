@@ -49,7 +49,7 @@ class _BikeDetailsScreenState extends State<BikeDetailsScreen> {
                 child: Stack(
                   fit: StackFit.expand,
                   children: [
-                    Image.network(
+                    Image.asset(
                       _bike.imageUrl,
                       fit: BoxFit.cover,
                       errorBuilder: (context, error, stackTrace) {
@@ -299,7 +299,7 @@ class _BikeDetailsScreenState extends State<BikeDetailsScreen> {
                       Expanded(
                         child: ElevatedButton.icon(
                           onPressed: () {
-                            ScaffoldMessenger.of(context).showSnackBar(
+                              ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
                                 content: const Text('Navigate to Scan Page'),
                                 backgroundColor: theme.colorScheme.secondary,
