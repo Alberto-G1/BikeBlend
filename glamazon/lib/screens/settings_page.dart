@@ -1,331 +1,293 @@
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:share_plus/share_plus.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:glamazon/reusable_widgets/animations/animations.dart';
+import 'package:glamazon/reusable_widgets/loaders/success_message.dart';
+import 'package:provider/provider.dart';
+import '../config/theme/theme_provider.dart';
+import '../utils/colors.dart';
 
-class SettingsPage extends StatefulWidget {
-  final void Function(bool) onThemeChanged;
-
-  const SettingsPage({required this.onThemeChanged, super.key});
+class SettingsScreen extends StatefulWidget {
+  const SettingsScreen({super.key});
 
   @override
-  _SettingsPageState createState() => _SettingsPageState();
+  State<SettingsScreen> createState() => _SettingsScreenState();
 }
 
-class _SettingsPageState extends State<SettingsPage> {
-  bool _isDarkMode = false;
-  bool _isVibrate = false;
-  final String _notificationTone = 'Default Tone';
-  final String _fontSize = 'Medium';
-  String _selectedLanguage = 'English';
-  String _selectedRegion = 'US';
-  String _wallpaperPath = ''; // Provide a default value
-
-  final List<String> _languages = ['English', 'Spanish', 'French', 'German'];
-  final List<String> _regions = ['US', 'UK', 'CA', 'AU'];
-  final List<String> _popupChoices = ['Choice 1', 'Choice 2', 'Choice 3'];
-  final Map<String, bool> _choicesStatus = {
-    'Choice 1': false,
-    'Choice 2': false,
-    'Choice 3': false,
-  };
+class _SettingsScreenState extends State<SettingsScreen> {
+  bool _isAnimated = false;
 
   @override
   void initState() {
     super.initState();
+    // Trigger animation after widget is built
     WidgetsBinding.instance.addPostFrameCallback((_) {
       setState(() {
-        _isDarkMode = Theme.of(context).brightness == Brightness.dark;
+        _isAnimated = true;
       });
     });
   }
 
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context);
+    
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 248, 236, 220),
       appBar: AppBar(
         title: const Text('Settings'),
+        elevation: 0,
       ),
-      body: ListView(
-        padding: const EdgeInsets.all(16.0),
-        children: [
-          _buildNotificationsSection(),
-          _buildChatsSection(),
-          _buildLanguageSection(),
-          _buildShareSection(),
-          _buildRateUsSection(),
-          _buildCustomerSupportSection(),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildNotificationsSection() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          'Notifications',
-          style: Theme.of(context).textTheme.titleMedium, // Updated text style
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            AppAnimations.slideIn(
+              animate: _isAnimated,
+              beginOffset: const Offset(0, 0.1),
+              child: _buildSectionTitle('Appearance'),
+            ),
+            const SizedBox(height: 16),
+            
+            // Theme settings
+            AppAnimations.fadeIn(
+              animate: _isAnimated,
+              child: _buildThemeSelector(themeProvider),
+            ),
+            
+            const SizedBox(height: 24),
+            
+            // Font settings
+            AppAnimations.slideIn(
+              animate: _isAnimated,
+              beginOffset: const Offset(0, 0.1),
+              duration: const Duration(milliseconds: 400),
+              child: _buildSectionTitle('Font'),
+            ),
+            const SizedBox(height: 16),
+            
+            AppAnimations.fadeIn(
+              animate: _isAnimated,
+              duration: const Duration(milliseconds: 500),
+              child: _buildFontSelector(themeProvider),
+            ),
+          ],
         ),
-        SwitchListTile(
-          title: const Text('Vibrate'),
-          value: _isVibrate,
-          onChanged: (value) {
-            setState(() {
-              _isVibrate = value;
-            });
-          },
-        ),
-        ListTile(
-          title: const Text('Notification Tone'),
-          subtitle: Text(_notificationTone),
-          onTap: _selectNotificationTone,
-        ),
-        ListTile(
-          title: const Text('Popup Choices'),
-          onTap: _showPopupChoices,
-        ),
-        ListTile(
-          title: const Text('Ringtone Setting'),
-          onTap: _selectRingtone,
-        ),
-      ],
-    );
-  }
-
-  Widget _buildChatsSection() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          'Chats',
-          style: Theme.of(context).textTheme.titleMedium, // Updated text style
-        ),
-        SwitchListTile(
-          title: const Text('Dark Mode'),
-          value: _isDarkMode,
-          onChanged: (value) {
-            setState(() {
-              _isDarkMode = value;
-              widget.onThemeChanged(
-                  _isDarkMode); // Notify parent widget of theme change
-            });
-          },
-        ),
-        ListTile(
-          title: const Text('Wallpaper'),
-          subtitle: Text(_wallpaperPath.isEmpty ? 'Default' : _wallpaperPath),
-          onTap: _selectWallpaper,
-        ),
-        ListTile(
-          title: const Text('Font Size'),
-          subtitle: Text(_fontSize),
-          onTap: _selectFontSize,
-        ),
-      ],
-    );
-  }
-
-  Widget _buildLanguageSection() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          'Language',
-          style: Theme.of(context).textTheme.titleMedium, // Updated text style
-        ),
-        ListTile(
-          title: const Text('Language'),
-          subtitle: Text(_selectedLanguage),
-          onTap: _selectLanguage,
-        ),
-        ListTile(
-          title: const Text('Region'),
-          subtitle: Text(_selectedRegion),
-          onTap: _selectRegion,
-        ),
-      ],
-    );
-  }
-
-  Widget _buildShareSection() {
-    return ListTile(
-      title: const Text('Share Our App'),
-      onTap: _shareApp,
-    );
-  }
-
-  Widget _buildRateUsSection() {
-    return ListTile(
-      title: const Text('Rate Us'),
-      onTap: _rateUs,
-    );
-  }
-
-  Widget _buildCustomerSupportSection() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          'Customer Support',
-          style: Theme.of(context).textTheme.titleMedium, // Updated text style
-        ),
-        ListTile(
-          title: const Text('Contact Us'),
-          onTap: _contactSupport,
-        ),
-        ListTile(
-          title: const Text('App Info'),
-          onTap: _showAppInfo,
-        ),
-      ],
-    );
-  }
-
-  void _selectNotificationTone() {
-    Fluttertoast.showToast(msg: 'Select Notification Tone');
-  }
-
-  void _showPopupChoices() {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Select Choices'),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: _popupChoices.map((choice) {
-            return Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(choice),
-                Switch(
-                  value: _choicesStatus[choice] ?? false,
-                  onChanged: (value) {
-                    setState(() {
-                      _choicesStatus[choice] = value;
-                    });
-                  },
-                ),
-              ],
-            );
-          }).toList(),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(context).pop(),
-            child: const Text('OK'),
-          ),
-        ],
       ),
     );
   }
 
-  void _selectRingtone() {
-    Fluttertoast.showToast(msg: 'Select Ringtone');
+  Widget _buildSectionTitle(String title) {
+    return Text(
+      title,
+      style: TextStyle(
+        fontSize: 18,
+        fontWeight: FontWeight.bold,
+        color: Theme.of(context).primaryColor,
+      ),
+    );
   }
 
-  Future<void> _selectWallpaper() async {
-    final picker = ImagePicker();
-    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
-    if (pickedFile != null) {
-      setState(() {
-        _wallpaperPath = pickedFile.path;
-      });
-    } else {
-      Fluttertoast.showToast(msg: 'No image selected.');
-    }
-  }
-
-  void _selectFontSize() {
-    Fluttertoast.showToast(msg: 'Select Font Size');
-  }
-
-  void _selectLanguage() {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Select Language'),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: _languages.map((language) {
-            return ListTile(
-              title: Text(language),
+  Widget _buildThemeSelector(ThemeProvider themeProvider) {
+    return Card(
+      elevation: 2,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text(
+              'Theme Mode',
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+            const SizedBox(height: 16),
+            
+            // Light mode option
+            _buildThemeOption(
+              title: 'Light',
+              icon: Icons.light_mode,
+              isSelected: !themeProvider.isDarkMode,
               onTap: () {
-                setState(() {
-                  _selectedLanguage = language;
-                });
-                Navigator.of(context).pop();
+                if (themeProvider.isDarkMode) {
+                  themeProvider.toggleTheme();
+                  SuccessMessage.show(context, 'Light theme applied');
+                }
               },
-            );
-          }).toList(),
-        ),
-      ),
-    );
-  }
-
-  void _selectRegion() {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Select Region'),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: _regions.map((region) {
-            return ListTile(
-              title: Text(region),
+            ),
+            
+            const SizedBox(height: 12),
+            
+            // Dark mode option
+            _buildThemeOption(
+              title: 'Dark',
+              icon: Icons.dark_mode,
+              isSelected: themeProvider.isDarkMode,
               onTap: () {
-                setState(() {
-                  _selectedRegion = region;
-                });
-                Navigator.of(context).pop();
+                if (!themeProvider.isDarkMode) {
+                  themeProvider.toggleTheme();
+                  SuccessMessage.show(context, 'Dark theme applied');
+                }
               },
-            );
-          }).toList(),
+            ),
+            
+            const SizedBox(height: 12),
+            
+            // System default option
+            _buildThemeOption(
+              title: 'System Default',
+              icon: Icons.settings_suggest,
+              isSelected: false,
+              onTap: () {
+                themeProvider.setSystemTheme(context);
+                SuccessMessage.show(context, 'System theme applied');
+              },
+            ),
+          ],
         ),
       ),
     );
   }
 
-  void _shareApp() {
-    Share.share('Check out this amazing app! [App Link]');
-  }
-
-  void _rateUs() {
-    final Uri url = Uri.parse(
-        'https://play.google.com/store/apps/details?id=com.example.my_app');
-    _launchURL(url);
-  }
-
-  void _contactSupport() {
-    final Uri url =
-        Uri.parse('mailto:support@example.com?subject=Support Request');
-    _launchURL(url);
-  }
-
-  void _showAppInfo() {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('App Info'),
-        content: const Text('Version 1.0.0\nBuild 100'),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(context).pop(),
-            child: const Text('OK'),
+  Widget _buildThemeOption({
+    required String title,
+    required IconData icon,
+    required bool isSelected,
+    required VoidCallback onTap,
+  }) {
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(8),
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+        decoration: BoxDecoration(
+          color: isSelected ? AppColors.sienna.withOpacity(0.1) : null,
+          borderRadius: BorderRadius.circular(8),
+          border: Border.all(
+            color: isSelected ? AppColors.sienna : Colors.grey.withOpacity(0.3),
           ),
-        ],
+        ),
+        child: Row(
+          children: [
+            Icon(
+              icon,
+              color: isSelected ? AppColors.sienna : null,
+            ),
+            const SizedBox(width: 12),
+            Text(
+              title,
+              style: TextStyle(
+                fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+                color: isSelected ? AppColors.sienna : null,
+              ),
+            ),
+            const Spacer(),
+            if (isSelected)
+              Icon(
+                Icons.check_circle,
+                color: AppColors.sienna,
+              ),
+          ],
+        ),
       ),
     );
   }
 
-  void _launchURL(Uri url) async {
-    if (await canLaunchUrl(url)) {
-      await launchUrl(url);
-    } else {
-      Fluttertoast.showToast(msg: 'Could not launch $url');
-    }
+  Widget _buildFontSelector(ThemeProvider themeProvider) {
+    // List of available fonts
+    final fonts = [
+      'Roboto',
+      'Poppins',
+      'Montserrat',
+      'OpenSans',
+      'Lato',
+    ];
+
+    return Card(
+      elevation: 2,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text(
+              'Font Family',
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+            const SizedBox(height: 16),
+            
+            ...fonts.map((font) => Padding(
+              padding: const EdgeInsets.only(bottom: 12),
+              child: _buildFontOption(
+                fontFamily: font,
+                isSelected: themeProvider.fontFamily == font,
+                onTap: () {
+                  themeProvider.setFont(font);
+                  SuccessMessage.show(context, '$font font applied');
+                },
+              ),
+            )),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildFontOption({
+    required String fontFamily,
+    required bool isSelected,
+    required VoidCallback onTap,
+  }) {
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(8),
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+        decoration: BoxDecoration(
+          color: isSelected ? AppColors.sienna.withOpacity(0.1) : null,
+          borderRadius: BorderRadius.circular(8),
+          border: Border.all(
+            color: isSelected ? AppColors.sienna : Colors.grey.withOpacity(0.3),
+          ),
+        ),
+        child: Row(
+          children: [
+            Text(
+              'Aa',
+              style: TextStyle(
+                fontFamily: fontFamily,
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                color: isSelected ? AppColors.sienna : null,
+              ),
+            ),
+            const SizedBox(width: 12),
+            Text(
+              fontFamily,
+              style: TextStyle(
+                fontFamily: fontFamily,
+                fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+                color: isSelected ? AppColors.sienna : null,
+              ),
+            ),
+            const Spacer(),
+            if (isSelected)
+              Icon(
+                Icons.check_circle,
+                color: AppColors.sienna,
+              ),
+          ],
+        ),
+      ),
+    );
   }
 }

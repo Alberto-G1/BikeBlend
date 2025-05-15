@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:glamazon/config/theme/theme_provider.dart';
 import 'package:glamazon/screens/ownersignup.dart';
 import 'package:glamazon/screens/salon_list.dart';
 import 'package:glamazon/screens/salonownerlogin.dart';
 import 'package:glamazon/screens/signin.dart';
-import 'package:glamazon/utils/colors.dart';
+import 'package:provider/provider.dart';
 
 void main() {
   runApp(const MyApp());
@@ -15,9 +16,10 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context);
     return MaterialApp(
-      theme: AppTheme.lightTheme,
-      darkTheme: AppTheme.darkTheme,
+      theme: themeProvider.themeData,
+      darkTheme: themeProvider.themeData,
       themeMode: ThemeMode.system,
       title: 'Glamazon',
       home: const MyImageSlider(),
