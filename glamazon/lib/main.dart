@@ -5,8 +5,8 @@ import 'package:glamazon/screens/edit_profile_page.dart';
 import 'package:glamazon/utils/colors.dart'; 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:hydrated_bloc/hydrated_bloc.dart';
-import 'package:path_provider/path_provider.dart';
+// import 'package:hydrated_bloc/hydrated_bloc.dart';
+// import 'package:path_provider/path_provider.dart';
 import 'firebase_options.dart';
 
 // Initialize Firebase and set up FCM
@@ -18,9 +18,9 @@ Future<void> main() async {
   );
 
   // Initialize HydratedStorage
-  HydratedBloc.storage = await HydratedStorage.build(
-    storageDirectory: await getApplicationDocumentsDirectory(),
-  );
+  // HydratedBloc.storage = await HydratedStorage.build(
+    // storageDirectory: await getApplicationDocumentsDirectory(),
+  // );
 
   // Set up FCM
   FirebaseMessaging messaging = FirebaseMessaging.instance;
