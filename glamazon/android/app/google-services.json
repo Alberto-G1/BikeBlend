@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "696586000488",
+    "project_id": "gl-b294b",
+    "storage_bucket": "gl-b294b.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:696586000488:android:fd0414d4393749d33c03dd",
+        "android_client_info": {
+          "package_name": "com.example.glamazon"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAD-KYJ32RettGgeODnWFE5MMcfTz6hlGI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
