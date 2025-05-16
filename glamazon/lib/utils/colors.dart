@@ -38,10 +38,14 @@ class AppColors {
   static const Color info = Color(0xFF2196F3);
 
   static const tealAccent = Colors.tealAccent;
+
+  static const Color beige = Color(0xFFF5F5DC);
+
+  // Text colors
+  static const Color textPrimary = Color(0xFF212121);
+  static const Color textSecondary = Color(0xFF757575);
+  static const Color textHint = Color(0xFFBDBDBD);
 }
-
-
-
 
 // import 'package:flutter/material.dart';
 

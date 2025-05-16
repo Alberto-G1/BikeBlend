@@ -3,26 +3,27 @@ import 'package:flutter/material.dart';
 import 'package:glamazon/reusable_widgets/loaders/loading_overlay.dart';
 import 'package:glamazon/reusable_widgets/loaders/success_message.dart';
 import 'package:glamazon/reusable_widgets/reusable_widgets.dart';
-import 'package:glamazon/screens/customer-home.dart';
-import 'package:glamazon/screens/reset_password.dart';
-import 'package:glamazon/screens/signup.dart';
-import 'package:glamazon/utils/animations.dart';
+import 'package:glamazon/screens/customer_profile_creation.dart';
+import 'package:glamazon/screens/customer_signin.dart';
+import 'package:glamazon/reusable_widgets/animations/animations.dart';
 import 'package:glamazon/utils/colors.dart';
 import 'package:glamazon/utils/constants.dart';
 import 'package:glamazon/utils/error_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:glamazon/config/theme/theme_provider.dart';
 
-class SignIn extends StatefulWidget {
-  const SignIn({super.key});
+class SignUp extends StatefulWidget {
+  const SignUp({super.key});
 
   @override
-  State<SignIn> createState() => _SignInState();
+  State<SignUp> createState() => _SignUpState();
 }
 
-class _SignInState extends State<SignIn> with SingleTickerProviderStateMixin {
+class _SignUpState extends State<SignUp> with SingleTickerProviderStateMixin {
+  final TextEditingController _usernameTextController = TextEditingController();
   final TextEditingController _emailTextController = TextEditingController();
   final TextEditingController _passwordTextController = TextEditingController();
+  final TextEditingController _confirmPasswordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   bool _isLoading = false;
   String? _errorMessage;
@@ -49,8 +50,10 @@ class _SignInState extends State<SignIn> with SingleTickerProviderStateMixin {
 
   @override
   void dispose() {
+    _usernameTextController.dispose();
     _emailTextController.dispose();
     _passwordTextController.dispose();
+    _confirmPasswordController.dispose();
     _animationController.dispose();
     super.dispose();
   }
@@ -60,9 +63,29 @@ class _SignInState extends State<SignIn> with SingleTickerProviderStateMixin {
     final themeProvider = Provider.of<ThemeProvider>(context);
     
     return Scaffold(
+      extendBodyBehindAppBar: true,
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        leading: IconButton(
+          icon: Icon(
+            Icons.arrow_back_ios,
+            color: themeProvider.isDarkMode ? Colors.white : AppColors.sienna,
+          ),
+          onPressed: () => Navigator.of(context).pop(),
+        ),
+        title: Text(
+          'Create Account',
+          style: TextStyle(
+            fontSize: 24, 
+            fontWeight: FontWeight.bold,
+            color: themeProvider.isDarkMode ? Colors.white : AppColors.sienna,
+          ),
+        ),
+      ),
       body: LoadingOverlay(
         isLoading: _isLoading,
-        message: "Signing in...",
+        message: "Creating your account...",
         child: Container(
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height,
@@ -87,7 +110,6 @@ class _SignInState extends State<SignIn> with SingleTickerProviderStateMixin {
                 child: Form(
                   key: _formKey,
                   child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       // Logo with animation
                       AppAnimations.scale(
@@ -95,7 +117,7 @@ class _SignInState extends State<SignIn> with SingleTickerProviderStateMixin {
                         child: logoWidget("assets/images/logo3.png"),
                       ),
                       
-                      SizedBox(height: 30),
+                      const SizedBox(height: AppConstants.largeSpacing),
                       
                       // Welcome text with animation
                       AppAnimations.slideIn(
@@ -103,7 +125,7 @@ class _SignInState extends State<SignIn> with SingleTickerProviderStateMixin {
                         beginOffset: const Offset(0, 0.2),
                         delay: const Duration(milliseconds: 100),
                         child: Text(
-                          "Welcome Back",
+                          "Join Glamazon",
                           style: TextStyle(
                             fontSize: AppConstants.titleFontSize,
                             fontWeight: FontWeight.bold,
@@ -122,7 +144,7 @@ class _SignInState extends State<SignIn> with SingleTickerProviderStateMixin {
                         beginOffset: const Offset(0, 0.2),
                         delay: const Duration(milliseconds: 150),
                         child: Text(
-                          "Sign in to continue",
+                          "Create an account to get started",
                           style: TextStyle(
                             fontSize: AppConstants.mediumFontSize,
                             color: themeProvider.isDarkMode 
@@ -132,7 +154,7 @@ class _SignInState extends State<SignIn> with SingleTickerProviderStateMixin {
                         ),
                       ),
                       
-                      SizedBox(height: 30),
+                      const SizedBox(height: 30),
                       
                       // Error message
                       if (_errorMessage != null)
@@ -163,11 +185,33 @@ class _SignInState extends State<SignIn> with SingleTickerProviderStateMixin {
                       if (_errorMessage != null)
                         const SizedBox(height: AppConstants.mediumSpacing),
                       
-                      // Email field with animation
+                      // Username field with animation
                       AppAnimations.slideIn(
                         animate: _animate,
                         beginOffset: const Offset(0, 0.2),
                         delay: const Duration(milliseconds: 200),
+                        child: CustomTextField(
+                          controller: _usernameTextController,
+                          labelText: "Username",
+                          hintText: "Enter your username",
+                          prefixIcon: const Icon(Icons.person_outline),
+                          textInputAction: TextInputAction.next,
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please enter a username';
+                            }
+                            return null;
+                          },
+                        ),
+                      ),
+                      
+                      const SizedBox(height: AppConstants.mediumSpacing),
+                      
+                      // Email field with animation
+                      AppAnimations.slideIn(
+                        animate: _animate,
+                        beginOffset: const Offset(0, 0.2),
+                        delay: const Duration(milliseconds: 250),
                         child: CustomTextField(
                           controller: _emailTextController,
                           labelText: "Email",
@@ -193,22 +237,20 @@ class _SignInState extends State<SignIn> with SingleTickerProviderStateMixin {
                       AppAnimations.slideIn(
                         animate: _animate,
                         beginOffset: const Offset(0, 0.2),
-                        delay: const Duration(milliseconds: 250),
+                        delay: const Duration(milliseconds: 300),
                         child: CustomTextField(
                           controller: _passwordTextController,
                           labelText: "Password",
                           hintText: "Enter your password",
                           isPassword: true,
                           prefixIcon: const Icon(Icons.lock_outline),
-                          textInputAction: TextInputAction.done,
-                          onEditingComplete: () {
-                            if (_formKey.currentState!.validate()) {
-                              _signIn();
-                            }
-                          },
+                          textInputAction: TextInputAction.next,
                           validator: (value) {
                             if (value == null || value.isEmpty) {
-                              return 'Please enter your password';
+                              return 'Please enter a password';
+                            }
+                            if (value.length < 6) {
+                              return 'Password must be at least 6 characters';
                             }
                             return null;
                           },
@@ -217,75 +259,80 @@ class _SignInState extends State<SignIn> with SingleTickerProviderStateMixin {
                       
                       const SizedBox(height: AppConstants.mediumSpacing),
                       
-                      // Forgot password with animation
-                      AppAnimations.fadeIn(
-                        animate: _animate,
-                        delay: const Duration(milliseconds: 300),
-                        child: Align(
-                          alignment: Alignment.centerRight,
-                          child: TextButton(
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(builder: (context) => const ResetPasswordScreen()),
-                              );
-                            },
-                            child: Text(
-                              "Forgot Password?",
-                              style: TextStyle(
-                                color: AppColors.sienna,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                      
-                      const SizedBox(height: AppConstants.largeSpacing),
-                      
-                      // Sign in button with animation
+                      // Confirm Password field with animation
                       AppAnimations.slideIn(
                         animate: _animate,
                         beginOffset: const Offset(0, 0.2),
                         delay: const Duration(milliseconds: 350),
-                        child: CustomButton(
-                          text: "SIGN IN",
-                          onPressed: () {
+                        child: CustomTextField(
+                          controller: _confirmPasswordController,
+                          labelText: "Confirm Password",
+                          hintText: "Confirm your password",
+                          isPassword: true,
+                          prefixIcon: const Icon(Icons.lock_outline),
+                          textInputAction: TextInputAction.done,
+                          onEditingComplete: () {
                             if (_formKey.currentState!.validate()) {
-                              _signIn();
+                              _signUp();
                             }
                           },
-                          isLoading: _isLoading,
-                          icon: Icons.login,
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please confirm your password';
+                            }
+                            if (value != _passwordTextController.text) {
+                              return 'Passwords do not match';
+                            }
+                            return null;
+                          },
                         ),
                       ),
                       
-                      SizedBox(height: 30),
+                      const SizedBox(height: 30),
                       
-                      // Sign up option with animation
+                      // Sign up button with animation
+                      AppAnimations.slideIn(
+                        animate: _animate,
+                        beginOffset: const Offset(0, 0.2),
+                        delay: const Duration(milliseconds: 400),
+                        child: CustomButton(
+                          text: "CREATE ACCOUNT",
+                          onPressed: () {
+                            if (_formKey.currentState!.validate()) {
+                              _signUp();
+                            }
+                          },
+                          isLoading: _isLoading,
+                          icon: Icons.person_add,
+                        ),
+                      ),
+                      
+                      const SizedBox(height: 30),
+                      
+                      // Sign in option with animation
                       AppAnimations.fadeIn(
                         animate: _animate,
-                        delay: const Duration(milliseconds: 400),
+                        delay: const Duration(milliseconds: 450),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              "Don't have an account?",
+                              "Already have an account?",
                               style: TextStyle(
                                 color: themeProvider.isDarkMode 
                                     ? Colors.grey[300] 
-                                    : const Color(0xffd05325),
+                                    : const Color(0xffbe4a21),
                               ),
                             ),
                             GestureDetector(
                               onTap: () {
                                 Navigator.push(
                                   context,
-                                  MaterialPageRoute(builder: (context) => const SignUp()),
+                                  MaterialPageRoute(builder: (context) => const SignIn()),
                                 );
                               },
                               child: const Text(
-                                "  SIGN UP ",
+                                " LOGIN",
                                 style: TextStyle(
                                   color: Color(0xff089be3),
                                   fontWeight: FontWeight.bold,
@@ -306,7 +353,7 @@ class _SignInState extends State<SignIn> with SingleTickerProviderStateMixin {
     );
   }
 
-  Future<void> _signIn() async {
+  Future<void> _signUp() async {
     if (!_formKey.currentState!.validate()) return;
     
     setState(() {
@@ -315,19 +362,28 @@ class _SignInState extends State<SignIn> with SingleTickerProviderStateMixin {
     });
     
     try {
-      await FirebaseAuth.instance.signInWithEmailAndPassword(
+      UserCredential userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: _emailTextController.text.trim(),
         password: _passwordTextController.text,
       );
       
+      // Send email verification
+      User? user = userCredential.user;
+      if (user != null && !user.emailVerified) {
+        await user.sendEmailVerification();
+      }
+      
       if (mounted) {
-        SuccessMessage.show(context, "Successfully signed in!");
+        SuccessMessage.show(
+          context, 
+          "Account created successfully! A verification email has been sent."
+        );
         
         // Navigate with animation
         Navigator.pushReplacement(
           context,
           PageRouteBuilder(
-            pageBuilder: (context, animation, secondaryAnimation) => const ImageSlider(),
+            pageBuilder: (context, animation, secondaryAnimation) => const ProfileCreationScreen(),
             transitionsBuilder: (context, animation, secondaryAnimation, child) {
               const begin = Offset(1.0, 0.0);
               const end = Offset.zero;
@@ -343,20 +399,20 @@ class _SignInState extends State<SignIn> with SingleTickerProviderStateMixin {
     } on FirebaseAuthException catch (e) {
       setState(() {
         switch (e.code) {
-          case 'wrong-password':
-            _errorMessage = 'Incorrect password. Please try again.';
-            break;
-          case 'user-not-found':
-            _errorMessage = 'No user found with this email.';
+          case 'email-already-in-use':
+            _errorMessage = 'The email address is already in use by another account.';
             break;
           case 'invalid-email':
-            _errorMessage = 'Invalid email address.';
+            _errorMessage = 'The email address is not valid.';
             break;
-          case 'user-disabled':
-            _errorMessage = 'This user account has been disabled.';
+          case 'weak-password':
+            _errorMessage = 'The password is too weak. It should be at least 6 characters long.';
             break;
-          case 'too-many-requests':
-            _errorMessage = 'Too many login attempts. Please try again later.';
+          case 'operation-not-allowed':
+            _errorMessage = 'This sign-up method is not allowed.';
+            break;
+          case 'network-request-failed':
+            _errorMessage = 'Network error. Please check your internet connection.';
             break;
           default:
             _errorMessage = 'An error occurred. Please try again.';
@@ -380,35 +436,43 @@ class _SignInState extends State<SignIn> with SingleTickerProviderStateMixin {
 }
 
 
-
-
 // import 'package:firebase_auth/firebase_auth.dart';
 // import 'package:flutter/material.dart';
-// import 'package:glamazon/screens/customer-home.dart';
-// import 'package:glamazon/screens/signup.dart';
+// import 'package:glamazon/screens/profile-edit.dart';
+// import 'package:glamazon/screens/signin.dart';
 
-// class SignIn extends StatefulWidget {
-//   const SignIn({super.key});
+// class SignUp extends StatefulWidget {
+//   const SignUp({super.key});
 
 //   @override
-//   State<SignIn> createState() => _SignInState();
+//   State<SignUp> createState() => _SignUpState();
 // }
 
-// class _SignInState extends State<SignIn> {
+// class _SignUpState extends State<SignUp> {
+//   final TextEditingController _usernameTextController = TextEditingController();
 //   final TextEditingController _emailTextController = TextEditingController();
 //   final TextEditingController _passwordTextController = TextEditingController();
 //   bool _isLoading = false;
-//   String? _errorMessage; // Variable to store error message
+//   String? _errorMessage; // Added variable to store error message
 
 //   @override
 //   Widget build(BuildContext context) {
 //     return Scaffold(
+//       extendBodyBehindAppBar: true,
 //       backgroundColor: const Color.fromARGB(255, 248, 236, 220),
+//       appBar: AppBar(
+//         backgroundColor: Colors.transparent,
+//         elevation: 0,
+//         title: const Text(
+//           'Sign Up',
+//           style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+//         ),
+//       ),
 //       body: Container(
 //         width: MediaQuery.of(context).size.width,
 //         height: MediaQuery.of(context).size.height,
 //         decoration: const BoxDecoration(
-//           color: Color.fromARGB(255, 250, 227, 197), // Single background color
+//           color: Color.fromARGB(255, 250, 227, 197),
 //         ),
 //         child: _isLoading
 //             ? const Center(child: CircularProgressIndicator())
@@ -418,11 +482,7 @@ class _SignInState extends State<SignIn> with SingleTickerProviderStateMixin {
 //                       20, MediaQuery.of(context).size.height * 0.1, 20, 0),
 //                   child: Column(
 //                     children: <Widget>[
-//                       logoWidget("assets/images/logo3.png"),
-//                       const SizedBox(
-//                         height: 30,
-//                       ),
-//                       if (_errorMessage != null) // Display error message above text inputs
+//                       if (_errorMessage != null) // Display error message at the top
 //                         Container(
 //                           padding: const EdgeInsets.symmetric(vertical: 10.0),
 //                           child: Text(
@@ -430,8 +490,17 @@ class _SignInState extends State<SignIn> with SingleTickerProviderStateMixin {
 //                             style: const TextStyle(color: Colors.red, fontSize: 16.0),
 //                           ),
 //                         ),
-//                       reusableTextField("Enter Your Email", Icons.email_outlined,
-//                           false, _emailTextController),
+//                       logoWidget("assets/images/logo3.png"),
+//                       const SizedBox(
+//                         height: 30,
+//                       ),
+//                       reusableTextField("Enter Username", Icons.person_2_outlined,
+//                           false, _usernameTextController),
+//                       const SizedBox(
+//                         height: 20,
+//                       ),
+//                       reusableTextField("Enter Email", Icons.email_outlined, false,
+//                           _emailTextController),
 //                       const SizedBox(
 //                         height: 20,
 //                       ),
@@ -440,16 +509,10 @@ class _SignInState extends State<SignIn> with SingleTickerProviderStateMixin {
 //                       const SizedBox(
 //                         height: 20,
 //                       ),
-//                       ElevatedButton(
-//                         onPressed: () {
-//                           _signIn();
-//                         },
-//                         child: const Text("Sign In"),
-//                       ),
+//                       signInSignUpButton(context, false, () {
+//                         _signUp();
+//                       }),
 //                       signUpOption(),
-//                       const SizedBox(
-//                         height: 40,
-//                       ),
 //                     ],
 //                   ),
 //                 ),
@@ -458,45 +521,58 @@ class _SignInState extends State<SignIn> with SingleTickerProviderStateMixin {
 //     );
 //   }
 
-//   Future<void> _signIn() async {
+//   Future<void> _signUp() async {
 //     setState(() {
 //       _isLoading = true;
 //       _errorMessage = null; // Reset error message on new attempt
 //     });
 
 //     try {
-//       await FirebaseAuth.instance.signInWithEmailAndPassword(
+//       UserCredential userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
 //         email: _emailTextController.text,
 //         password: _passwordTextController.text,
 //       );
 
+//       // Send email verification
+//       User? user = userCredential.user;
+//       if (user != null && !user.emailVerified) {
+//         await user.sendEmailVerification();
+//         print("Verification email sent");
+//       }
+
+//       // Navigate to profile edit screen or other page
 //       Navigator.push(
 //         context,
-//         MaterialPageRoute(builder: (context) => const ImageSlider()),
+//         MaterialPageRoute(builder: (context) => const ProfileEditScreen()),
 //       );
 //     } on FirebaseAuthException catch (e) {
 //       setState(() {
 //         switch (e.code) {
-//           case 'wrong-password':
-//             _errorMessage = 'Incorrect password. Please try again.';
-//             break;
-//           case 'user-not-found':
-//             _errorMessage = 'No user found with this email.';
+//           case 'email-already-in-use':
+//             _errorMessage = 'The email address is already in use by another account.';
 //             break;
 //           case 'invalid-email':
-//             _errorMessage = 'Invalid email address.';
+//             _errorMessage = 'The email address is not valid.';
 //             break;
-//           case 'user-disabled':
-//             _errorMessage = 'This user account has been disabled.';
+//           case 'weak-password':
+//             _errorMessage = 'The password is too weak. It should be at least 6 characters long.';
 //             break;
-//           case 'too-many-requests':
-//             _errorMessage = 'Too many login attempts. Please try again later.';
+//           case 'operation-not-allowed':
+//             _errorMessage = 'This sign-up method is not allowed.';
+//             break;
+//           case 'network-request-failed':
+//             _errorMessage = 'Network error. Please check your internet connection.';
 //             break;
 //           default:
-//             _errorMessage = 'An error occurred. Please try again.';
+//             _errorMessage = 'An unknown error occurred. Please try again.';
 //             break;
 //         }
 //       });
+//     } catch (e) {
+//       setState(() {
+//         _errorMessage = 'An error occurred. Please try again later.';
+//       });
+//       print("Error: ${e.toString()}");
 //     } finally {
 //       setState(() {
 //         _isLoading = false;
@@ -509,20 +585,19 @@ class _SignInState extends State<SignIn> with SingleTickerProviderStateMixin {
 //       mainAxisAlignment: MainAxisAlignment.center,
 //       children: [
 //         const Text(
-//           'Don\'t Have an account?',
-//           style: TextStyle(color: Color(0xffd05325)),
+//           'Have an account?',
+//           style: TextStyle(color: Color(0xffbe4a21)),
 //         ),
 //         GestureDetector(
 //           onTap: () {
 //             Navigator.push(
 //               context,
-//               MaterialPageRoute(builder: (context) => const SignUp()),
+//               MaterialPageRoute(builder: (context) => const SignIn()),
 //             );
 //           },
 //           child: const Text(
-//             '  SIGN UP ',
-//             style: TextStyle(
-//                 color: Color(0xff089be3), fontWeight: FontWeight.bold),
+//             ' LOGIN',
+//             style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold),
 //           ),
 //         ),
 //       ],

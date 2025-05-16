@@ -1,70 +1,76 @@
 import 'package:flutter/material.dart';
 import 'package:glamazon/config/theme/theme_provider.dart';
-import 'package:glamazon/config/theme/theme_toggle.dart';
-import 'package:glamazon/utils/colors.dart';
 import 'package:provider/provider.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
+  final Color backgroundColor;
   final List<Widget>? actions;
-  final bool showBackButton;
   final bool showThemeToggle;
-  final VoidCallback? onBackPressed;
-  final Color? backgroundColor;
-  final Color? titleColor;
+  final bool automaticallyImplyLeading;
   final double elevation;
   final Widget? leading;
-  final PreferredSizeWidget? bottom;
+  final VoidCallback? onLeadingPressed;
 
   const CustomAppBar({
-    super.key,
+    Key? key,
     required this.title,
+    required this.backgroundColor,
     this.actions,
-    this.showBackButton = true,
-    this.showThemeToggle = true,
-    this.onBackPressed,
-    this.backgroundColor,
-    this.titleColor,
+    this.showThemeToggle = false,
+    this.automaticallyImplyLeading = true,
     this.elevation = 0,
     this.leading,
-    this.bottom,
-  });
+    this.onLeadingPressed,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<ThemeProvider>(context);
     
+    List<Widget> finalActions = actions ?? [];
+    
+    if (showThemeToggle) {
+      finalActions.add(
+        IconButton(
+          icon: Icon(
+            themeProvider.isDarkMode ? Icons.light_mode : Icons.dark_mode,
+            color: Colors.white,
+          ),
+          onPressed: () {
+            themeProvider.toggleTheme();
+          },
+        ),
+      );
+    }
+    
     return AppBar(
-      backgroundColor: backgroundColor ?? 
-          (themeProvider.isDarkMode ? Colors.black : AppColors.sienna),
-      elevation: elevation,
-      centerTitle: true,
       title: Text(
         title,
-        style: TextStyle(
-          fontSize: 20,
+        style: const TextStyle(
           fontWeight: FontWeight.bold,
-          color: titleColor ?? Colors.white,
+          fontSize: 20,
         ),
       ),
-      leading: showBackButton 
-          ? (leading ?? IconButton(
+      backgroundColor: backgroundColor,
+      elevation: elevation,
+      automaticallyImplyLeading: automaticallyImplyLeading,
+      leading: leading ?? (automaticallyImplyLeading && Navigator.canPop(context)
+          ? IconButton(
               icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
-              onPressed: onBackPressed ?? () => Navigator.of(context).pop(),
-            ))
-          : null,
-      actions: [
-        if (showThemeToggle)
-          Padding(
-            padding: const EdgeInsets.only(right: 16.0),
-            child: ThemeToggle(iconColor: Colors.white),
-          ),
-        if (actions != null) ...actions!,
-      ],
-      bottom: bottom,
+              onPressed: onLeadingPressed ?? () => Navigator.pop(context),
+            )
+          : null),
+      actions: finalActions,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          bottomLeft: Radius.circular(20),
+          bottomRight: Radius.circular(20),
+        ),
+      ),
     );
   }
 
   @override
-  Size get preferredSize => Size.fromHeight(bottom == null ? kToolbarHeight : kToolbarHeight + bottom!.preferredSize.height);
+  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
 }

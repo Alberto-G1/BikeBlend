@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:glamazon/reusable_widgets/animations/animations.dart';
 import 'package:glamazon/reusable_widgets/loaders/success_message.dart';
+import 'package:glamazon/reusable_widgets/animations/animations.dart';
 import 'package:provider/provider.dart';
 import '../config/theme/theme_provider.dart';
 import '../utils/colors.dart';

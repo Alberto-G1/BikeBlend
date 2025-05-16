@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:glamazon/screens/splash.dart';
-import 'package:glamazon/screens/profile_page.dart'; 
-import 'package:glamazon/screens/edit_profile_page.dart';
+import 'package:glamazon/screens/owner_profile_page.dart'; 
+import 'package:glamazon/screens/owner_edit_profile_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:provider/provider.dart';

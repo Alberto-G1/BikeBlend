@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:glamazon/reusable_widgets/loaders/loading_overlay.dart';
 import 'package:glamazon/reusable_widgets/loaders/success_message.dart';
 import 'package:glamazon/reusable_widgets/reusable_widgets.dart';
-import 'package:glamazon/utils/animations.dart';
+import 'package:glamazon/reusable_widgets/animations/animations.dart';
 import 'package:glamazon/utils/colors.dart';
 import 'package:glamazon/utils/constants.dart';
 import 'package:glamazon/utils/error_handler.dart';

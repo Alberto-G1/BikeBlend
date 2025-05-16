@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:glamazon/screens/profile_page.dart';
+import 'package:glamazon/screens/owner_profile_page.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';

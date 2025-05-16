@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:glamazon/screens/customer-home.dart';
 import 'package:glamazon/screens/customer_chats.dart';
 import 'package:glamazon/screens/owner-gallery.dart';
-import 'package:glamazon/screens/profile_page.dart';
+import 'package:glamazon/screens/owner_profile_page.dart';
 import 'package:glamazon/screens/settings_owner.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
