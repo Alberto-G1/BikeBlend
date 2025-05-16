@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:glamazon/screens/customer-home.dart';
 // import 'package:glamazon/screes/chat-page.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:glamazon/screens/auto_image_slider.dart';
 
 class SalonDetails extends StatefulWidget {
   const SalonDetails({super.key});
@@ -260,7 +260,7 @@ class _SalonDetailsPageState extends State<SalonDetails> {
           if (index == 0) {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => const MyImageSlider()),
+              MaterialPageRoute(builder: (context) => const ImageSlider()),
             );
           } else if (index == 1) {
             // Navigator.push(

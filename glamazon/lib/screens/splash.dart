@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:glamazon/screens/auto_image_slider.dart';
+import 'package:glamazon/screens/welcome_screen.dart';
 
 class Splash extends StatefulWidget {
   const Splash({super.key});
@@ -29,7 +29,7 @@ class _SplashState extends State<Splash> {
     await Future.delayed(const Duration(milliseconds: 9500), () {});
     Navigator.pushReplacement(
       context,
-      MaterialPageRoute(builder: (context) => const MyImageSlider()),
+      MaterialPageRoute(builder: (context) => const WelcomeScreen()),
     );
   }
 

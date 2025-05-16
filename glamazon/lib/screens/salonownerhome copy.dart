@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:glamazon/screens/auto_image_slider.dart';
+import 'package:glamazon/screens/customer-home.dart';
 import 'package:glamazon/screens/customer_chats.dart';
 import 'package:glamazon/screens/owner-gallery.dart';
 import 'package:glamazon/screens/profile_page.dart';
@@ -209,7 +209,7 @@ class _SalonOwnerHomeState extends State<SalonOwnerHome> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => const MyImageSlider(),
+                              builder: (context) => const ImageSlider(),
                             ),
                           );
                         });

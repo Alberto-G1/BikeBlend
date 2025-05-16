@@ -1,40 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:glamazon/config/theme/theme_provider.dart';
-import 'package:glamazon/screens/auto_image_slider.dart';
-// import 'package:glamazon/screens/booking_page.dart';
+import 'package:glamazon/screens/welcome_screen.dart';
 import 'package:glamazon/screens/profile-details.dart';
-import 'package:glamazon/screens/profile-edit.dart';
 import 'package:glamazon/screens/salon_list.dart';
 import 'package:glamazon/screens/user_appointments.dart';
-import 'package:provider/provider.dart';
 
-void main() {
-  runApp(const MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    final themeProvider = Provider.of<ThemeProvider>(context);
-    
-    return MaterialApp(
-      theme: themeProvider.themeData,
-      darkTheme: themeProvider.themeData,
-      themeMode: ThemeMode.system,
-      title: 'Glamazon',
-      home: const ImageSlider(),
-      routes: {
-        '/serviceDetails': (context) => const SalonList(),
-        '/home': (context) => const MyImageSlider(),
-        '/profile': (context) => const ProfileEditScreen(),
-      },
-    );
-  }
-}
 
 class ImageSlider extends StatefulWidget {
   const ImageSlider({super.key});
@@ -79,7 +50,7 @@ class _ImageSliderState extends State<ImageSlider> {
                 FirebaseAuth.instance.signOut().then((Value) {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => const MyImageSlider()),
+                    MaterialPageRoute(builder: (context) => const WelcomeScreen()),
                   );
                 });
               },

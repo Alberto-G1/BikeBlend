@@ -18,6 +18,26 @@ class AppColors {
   static const Color lightTextSecondary = Color(0xFF757575);
   static const Color darkTextPrimary = Color(0xFFEEEEEE);
   static const Color darkTextSecondary = Color(0xFFBDBDBD);
+
+  // Primary colors
+  static const Color teal = Color(0xFF008080);
+  
+  // Secondary colors
+  static const Color cream = Color(0xFFF8ECDC);
+  static const Color gold = Color(0xFFD4AF37);
+  
+  // Dark mode colors
+  static const Color darkSurface = Color(0xFF1E1E1E);
+  
+  // Text colors
+  static const Color darkText = Color(0xFF212121);
+  static const Color lightText = Color(0xFFF5F5F5);
+  
+  // Status colors
+  static const Color warning = Color(0xFFFFC107);
+  static const Color info = Color(0xFF2196F3);
+
+  static const tealAccent = Colors.tealAccent;
 }
 
 

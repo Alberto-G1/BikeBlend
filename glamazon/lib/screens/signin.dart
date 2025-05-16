@@ -4,6 +4,7 @@ import 'package:glamazon/reusable_widgets/loaders/loading_overlay.dart';
 import 'package:glamazon/reusable_widgets/loaders/success_message.dart';
 import 'package:glamazon/reusable_widgets/reusable_widgets.dart';
 import 'package:glamazon/screens/customer-home.dart';
+import 'package:glamazon/screens/reset_password.dart';
 import 'package:glamazon/screens/signup.dart';
 import 'package:glamazon/utils/animations.dart';
 import 'package:glamazon/utils/colors.dart';
@@ -224,7 +225,10 @@ class _SignInState extends State<SignIn> with SingleTickerProviderStateMixin {
                           alignment: Alignment.centerRight,
                           child: TextButton(
                             onPressed: () {
-                              // TODO: Implement forgot password
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => const ResetPasswordScreen()),
+                              );
                             },
                             child: Text(
                               "Forgot Password?",
