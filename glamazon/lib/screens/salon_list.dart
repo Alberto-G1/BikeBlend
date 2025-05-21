@@ -1,7 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:glamazon/models.dart';
-import 'package:glamazon/screens/salon_details_page.dart';
+import 'package:glamazon/screens/salon_profile_details_page.dart';
 // import 'package:glamazon/models.dart'; // Correct import
 
 class SalonList extends StatefulWidget {
@@ -189,7 +190,7 @@ class _SalonListState extends State<SalonList> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => SalonDetailPage(salon: owner),
+                          builder: (context) => SalonDetailsPage(salon: owner, salonId: FirebaseAuth.instance.currentUser!.uid,),
                         ),
                       );
                     },

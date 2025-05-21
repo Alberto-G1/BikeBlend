@@ -4,7 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:glamazon/reusable_widgets/loaders/loading_overlay.dart';
 import 'package:glamazon/reusable_widgets/loaders/success_message.dart';
 import 'package:glamazon/reusable_widgets/reusable_widgets.dart';
-import 'package:glamazon/screens/salonownerhome%20copy.dart';
+import 'package:glamazon/screens/salonownerhome.dart';
 import 'package:glamazon/screens/ownersignup.dart';
 import 'package:glamazon/reusable_widgets/animations/animations.dart';
 import 'package:glamazon/utils/colors.dart';
